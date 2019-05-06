@@ -1,26 +1,15 @@
-#!groovy
-import java.text.*
-
-node {
-
-    properties([
-            buildDiscarder(
-                    logRotator(
-                            artifactDaysToKeepStr: '1',
-                            artifactNumToKeepStr: '1',
-                            daysToKeepStr: '3',
-                            numToKeepStr: '3'
-                    )),
-            pipelineTriggers([pollSCM('*/1 * * * *')])
-    ])
-
-    stage('CHECKOUT') {
-        checkout scm
+pipeline {
+    agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v $HOME/.m2:/root/.m2'
+        }
     }
-
-
-    stage('BUILD') {
-
-
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn -B'
+            }
+        }
     }
 }
