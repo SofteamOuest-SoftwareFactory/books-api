@@ -1,7 +1,7 @@
 #!groovy
 import java.text.*
 
-node('any') {
+node {
 
     properties([
             buildDiscarder(
